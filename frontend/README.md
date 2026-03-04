@@ -9,7 +9,7 @@ This build supports a full Blogger flow:
 
 ## Why you were getting `invalid_redirect_uri`
 
-Your previous env used Appwrite callback URI as `GOOGLE_REDIRECT_URI`:
+Your previous env used Appwrite callback URI as `VITE_GOOGLE_REDIRECT_URI`:
 
 `https://sfo.cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/695f94f9003a97931795`
 
@@ -30,9 +30,9 @@ Use this shape:
 PORT=8787
 CORS_ORIGIN=http://localhost:5173
 
-GOOGLE_CLIENT_ID=YOUR_WEB_CLIENT_ID
+VITE_GOOGLE_CLIENT_ID=YOUR_WEB_CLIENT_ID
 GOOGLE_CLIENT_SECRET=YOUR_WEB_CLIENT_SECRET
-GOOGLE_REDIRECT_URI=http://localhost:5173
+VITE_GOOGLE_REDIRECT_URI=http://localhost:5173
 TOKEN_ENCRYPTION_KEY=CHANGE_THIS_SECRET
 
 VITE_API_BASE_URL=https://blogger-backend-c8c6.onrender.com
@@ -42,7 +42,7 @@ VITE_APPWRITE_PROJECT_ID=695f94f9003a97931795
 VITE_APPWRITE_BUCKET_ID=695f9d8b0029dbe41ecb
 ```
 
-> `VITE_GOOGLE_CLIENT_ID` and `VITE_GOOGLE_REDIRECT_URI` are not needed now; frontend reads backend auth config via `/api/auth/config`.
+> Frontend now reads OAuth config directly from `import.meta.env` (`VITE_GOOGLE_CLIENT_ID`, `VITE_GOOGLE_REDIRECT_URI`).
 
 ## Run
 

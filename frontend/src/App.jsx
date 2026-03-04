@@ -58,28 +58,33 @@ async function uploadHeroToAppwrite(file) {
 function AppShell() {
   const { state, update, resetDraft } = useStore();
   const [page, setPage] = useState('dashboard');
-  const [authConfig, setAuthConfig] = useState({ googleClientId: '', googleRedirectUri: '', missing: [] });
   const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const [puterUser, setPuterUser] = useState('Not signed in');
   const [bloggerSignedIn, setBloggerSignedIn] = useState(false);
   const heroFileRef = useRef(null);
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+  const googleRedirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI || window.location.origin;
+
+  const missingFrontendEnv = [
+    !googleClientId ? 'VITE_GOOGLE_CLIENT_ID' : '',
+    !googleRedirectUri ? 'VITE_GOOGLE_REDIRECT_URI' : '',
+  ].filter(Boolean);
 
   const bloggerOAuthUrl = useMemo(() => {
-    if (!authConfig.googleClientId || !authConfig.googleRedirectUri) return '';
+    if (!googleClientId || !googleRedirectUri) return '';
     const params = new URLSearchParams({
-      client_id: authConfig.googleClientId,
-      redirect_uri: authConfig.googleRedirectUri,
+      client_id: googleClientId,
+      redirect_uri: googleRedirectUri,
       response_type: 'code',
       scope: 'https://www.googleapis.com/auth/blogger',
       access_type: 'offline',
       prompt: 'consent',
     });
     return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-  }, [authConfig]);
+  }, [googleClientId, googleRedirectUri]);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/auth/config`).then((r) => r.json()).then(setAuthConfig).catch(() => {});
     fetch(`${API_BASE}/api/auth/status`)
       .then((r) => r.json())
       .then((p) => setBloggerSignedIn(Boolean(p.bloggerSignedIn)))
@@ -258,7 +263,7 @@ mode:${mode}\nseedTitle:${seedTitle}\ndescription:${description}`;
         </select>
       </section>
 
-      {authConfig.missing?.length ? <p className="msg">Missing backend env: {authConfig.missing.join(', ')}</p> : null}
+      {missingFrontendEnv.length ? <p className="msg">Missing frontend env: {missingFrontendEnv.join(', ')}</p> : null}
       {msg ? <p className="msg">{msg}</p> : null}
 
       {page === 'dashboard' ? <DashboardPage state={state} onCreate={openNewPost} onLoadPosts={() => safe(fetchPosts)} onEditPost={editPost} /> : null}
