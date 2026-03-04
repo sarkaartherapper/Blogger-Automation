@@ -5,7 +5,7 @@ import DashboardPage from './pages/DashboardPage';
 import PostDetailsPage from './pages/PostDetailsPage';
 import PostEditPage from './pages/PostEditPage';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8787';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://blogger-backend-c8c6.onrender.com';
 
 function injectTemplate(hero, content) {
   return MASTER_TEMPLATE.replaceAll('{{HERO_IMAGE}}', hero || '').replace('{{CONTENT}}', content || '<p></p>');
