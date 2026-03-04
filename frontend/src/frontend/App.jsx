@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { injectTemplate } from './utils/masterTemplate';
 import './app.css';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8787';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://blogger-backend-c8c6.onrender.com';
 const OAUTH_SCOPE = 'https://www.googleapis.com/auth/blogger';
 
 const emptyGenerated = {

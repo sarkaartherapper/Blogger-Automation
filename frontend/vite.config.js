@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:8787',
+        target: 'https://blogger-backend-c8c6.onrender.com',
         changeOrigin: true,
       },
     },
